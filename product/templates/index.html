@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>products</title>
+  </head>
+  <body>
+    <a href="{% url 'products:cart' %}" target="_blank">مشاهده سبد خرید</a>
+    {% for pro in products %}
+      <h2>{{ pro.name }}</h2>
+      <form action="" method="post">
+        {% csrf_token %}
+        <input name="product" id="product" type="text" value="{{ pro.id }}" hidden />
+        <input type="submit" value="افزودن به سبد خرید" />
+        <input type="submit" value="حذف" />
+      </form>
+    {% endfor %}
+  </body>
+</html>

@@ -1,0 +1,152 @@
+{% extends 'base/base.html' %}  
+
+{% block title %}
+  daitasl
+{% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+ <div id="js-preloader" class="js-preloader">
+  <div class="preloader-inner">
+    <span class="dot"></span>
+    <div class="dots">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</div> 
+  <div class="page-heading normal-space">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h2>View Item Details</h2>
+          <div class="buttons">
+            <div class="border-button">
+              <a href="{% url 'shop_app:explore' %}">Explore Our Product!</a>
+            </div>
+            <div class="main-button">
+              <a href="https://www.youtube.com/@JeanWatts" target="_blank">Learn how to makeup!</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item-details-page">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading">
+            <div class="line-dec"></div>
+            <h2>View Details <em>For Item</em> Here.</h2>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="left-image">
+              <img src="{{ product.image.url }}" alt="{{ product.name }}" style="border-radius: 20px;">
+          </div>
+        </div>
+        <div class="col-lg-5 align-self-center">
+          <h4>{{ product.name }}</h4>
+         
+          <p>{{ product.description }}</p>
+          <div class="row">
+              <div class="col-3">
+                  <span class="bid">
+                    <br><strong>${{ product.price }} </strong><br><em>{{ product.brand }}</em>
+                  </span>
+              </div>
+              <div class="col-5">
+                  <span class="ends">
+                     <br><strong>{{ product.get_status_display }}</strong><br>
+                  </span>
+              </div>
+          </div>
+          <div class="container mt-5" style="display: flex; justify-content: flex-end; align-items: flex-start; padding: 20px; height: 1px; position: relative;">
+            <!-- Add to Favorites Button -->
+            <form action="" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="product" value="{{ pro.id }}" />
+                <button class="favorite-btn" aria-label="Add to favorites" style="background:none; border:none; padding:0; cursor:pointer;">
+                    <svg viewBox="0 0 24 24" width="1.5em" height="1.5em">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </button>
+            </form>
+        
+            <form action="" method="post">
+                {% csrf_token %}
+                <input name="product" id="product" type="text" value="{{ pro.id }}" hidden />
+                <button type="submit" style="background:none; border:none; padding:0; cursor:pointer;">
+                    <svg class="shopping-btn" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 16 16">
+                        <path fill="currentColor" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607L1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4a2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4a2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2a1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2a1 1 0 0 1 0-2"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+        
+        </div>
+      </div>
+      
+      <div class="current-bid">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="mini-heading">
+                    {% if similar_products %}
+                        <h4>Similar products</h4>
+                    {% else %}
+                        <h4>Other products</h4>
+                    {% endif %}
+                </div>
+            </div>
+
+
+          
+                  
+    
+            {% if similar_products %}
+                {% for similar_product in similar_products %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="item">
+                            <div class="left-img">
+                                <img src="{{ similar_product.image.url }}" alt="{{ similar_product.name }}">
+                            </div>
+                            <div class="right-content">
+                                <h4>{{ similar_product.name }}</h4>
+                                <a href="#">@{{ similar_product.author_name }}</a>
+                                <div class="line-dec"></div>
+                                <h6>Bid: <em>{{ similar_product.price }}</em></h6>
+                                <span class="date">{{ similar_product.created_at|date:"d/m/Y, H:i" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% for product in other_products %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="item">
+                            <div class="left-img">
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            </div>
+                            <div class="right-content">
+                                <h4>{{ product.name }}</h4>
+                                <a href="#">@{{ product.author_name }}</a>
+                                <div class="line-dec"></div>
+                                <h6>Bid: <em>{{ product.price }}</em></h6>
+                                <span class="date">{{ product.created_at|date:"d/m/Y, H:i" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

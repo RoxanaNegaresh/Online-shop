@@ -1,0 +1,65 @@
+{% extends 'base/base.html' %}  
+
+{% load static %}
+
+{% block title %}
+Registration
+{% endblock %}
+
+
+
+  {% block content %}
+  <style>
+    .inputregister {
+        margin-bottom: 2px !important;
+    }
+    .loginregister {
+        margin-bottom: 2px !important;
+    }
+   ;
+</style>
+  <div class="bodyback">
+    <div class="mainregister">  	
+        <input type="checkbox" id="chk" aria-hidden="true">
+
+        <div class="signupregister">
+            <form method="post" action="">
+                {% csrf_token %}
+                
+                <label class="labelregister" for="chk" aria-hidden="true">Sign up</label>
+                {{ signup_form.as_p }}
+                <button class="buttonregister">Sign up</button>
+            </form>
+        </div>
+
+        <div class="loginregister">
+            <form method="post" action="{% url 'users:login' %}">
+                {% csrf_token %}
+                <label class="labelregister" for="chk" aria-hidden="true">Login</label>
+                {{ login_form.as_p }}
+                <button class="buttonregister">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+	{% endblock %}
+
+
+
+
+	{% comment %} <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup</title>
+  </head>
+  <body>
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="ثبت" />
+    </form>
+  </body>
+</html> {% endcomment %}

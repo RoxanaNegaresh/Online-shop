@@ -1,0 +1,148 @@
+{% extends 'base/base.html' %}  
+{% load static %}
+
+{% block title %}
+  Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div id="js-preloader" class="js-preloader">
+  <div class="preloader-inner">
+    <span class="dot"></span>
+    <div class="dots">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</div> 
+
+
+<div class="page-heading normal-space">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2>View Details For {{ request.user.username }}</h2>
+        <span>Home > <a href="{% url 'users:profile' %}">Profile</a></span>
+        <div class="buttons">
+          <div class="border-button">
+            <a href="{% url 'shop_app:explore' %}">Explore Our Products!</a>
+          </div>
+          <div class="main-button">
+            <a href="https://www.youtube.com/@JeanWatts" target="_blank">Learn how to makeup!</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="author-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        
+      </div>
+      <div class="col-lg-6">
+        <div class="right-info">
+          <div class="row">
+            <div class="col-4">
+              <div class="info-item">
+                <h6>{{ request.user.phone }}</h6>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <h5>{{ request.user.address }}</h5>
+            </div>
+            <br>
+            <div class="col-5">
+              <h5>Total Price: ${{ total_price }}</h5>
+            </div>
+            <div class="col-7">
+              <div class="main-button">
+                <a href="https://www.zarinpal.com/">Checkout</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12">
+        <div class="section-heading">
+          <div class="line-dec"></div>
+          <h2>{{ request.user.username }}’s <em>Items</em></h2>
+        </div>
+      </div>
+
+      <!-- Cart Items Section -->
+      <div class="container">
+        <div class="row">
+          {% if products_in_cart %}
+            <h2>Products in Your Cart</h2>
+            {% for product in products_in_cart %}
+              <div class="col-lg-3 col-md-6">
+                <div class="item">
+                  <div class="row">
+                    <div class="col-lg-12">
+               
+                      <img src="{{ product.image_url }}" alt="{{ product.name }}" class="rounded" style="border-radius: 20px;">
+                      <h4>{{ product.name }}</h4>
+                    </div>
+                    <div class="col-lg-12">
+                      <div class="line-dec"></div>
+                      <div class="row">
+                        <div class="col-6">
+                          <span><br> <strong>${{ product.price }} </strong></span>
+                        </div>
+                     
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p>No products in your cart.</p>
+          {% endif %}
+
+          {% if products_liked %}
+            <h2>Products You Liked</h2>
+            {% for product in products_liked %}
+              <div class="col-lg-3 col-md-6">
+                <div class="item">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <span class="author">
+                        <img src="{{ product.author_image_url }}" alt="Author" class="rounded-circle" style="max-width: 50px;">
+                      </span>
+                      <img src="{{ product.image_url }}" alt="{{ product.name }}" class="rounded" style="border-radius: 20px;">
+                      <h4>{{ product.name }}</h4>
+                    </div>
+                    <div class="col-lg-12">
+                      <div class="line-dec"></div>
+                      <div class="row">
+                        <div class="col-6">
+                          <span>Current Price: <br> <strong>{{ product.price }} ETH</strong></span>
+                        </div>
+                        <div class="col-6">
+                          <span>Ends In: <br> <strong>{{ product.end_date }}</strong></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p>No products liked yet.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
